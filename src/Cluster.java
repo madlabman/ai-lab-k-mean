@@ -18,30 +18,34 @@ public class Cluster {
     }
 
     public void computeClusterCenter() {
-        if ( this.points.isEmpty() ) {
-            try {
-                throw new Exception("Нет точек для вычисления центра кластера!");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        if ( !this.points.isEmpty() ) {
 
-        double minX = this.points.get(0).getX(); double maxX = minX;
-        double minY = this.points.get(0).getY(); double maxY = minY;
-        for ( Point p : this.points ) {
-            // Check X
-            if ( p.getX() < minX ) { minX = p.getX(); }
-            else if ( p.getX() > maxX ) { maxX = p.getX(); }
-            // Check Y
-            if ( p.getY() < minY ) { minY = p.getY(); }
-            else if ( p.getY() > maxY ) { maxY = p.getY(); }
+            double minX = this.points.get(0).getX();
+            double maxX = minX;
+            double minY = this.points.get(0).getY();
+            double maxY = minY;
+            for (Point p : this.points) {
+                // Check X
+                if (p.getX() < minX) {
+                    minX = p.getX();
+                } else if (p.getX() > maxX) {
+                    maxX = p.getX();
+                }
+                // Check Y
+                if (p.getY() < minY) {
+                    minY = p.getY();
+                } else if (p.getY() > maxY) {
+                    maxY = p.getY();
+                }
+            }
+            // Save last state
+            this.lastClusterCenter.setX(this.clusterCenter.getX());
+            this.lastClusterCenter.setY(this.clusterCenter.getY());
+            // Compute new state
+            this.clusterCenter.setX((minX + maxX) / 2);
+            this.clusterCenter.setY((minY + maxY) / 2);
+
         }
-        // Save last state
-        this.lastClusterCenter.setX( this.clusterCenter.getX() );
-        this.lastClusterCenter.setY( this.clusterCenter.getY() );
-        // Compute new state
-        this.clusterCenter.setX( (minX + maxX) / 2 );
-        this.clusterCenter.setY( (minY + maxY) / 2 );
     }
 
     public void addPoint( Point p ) {

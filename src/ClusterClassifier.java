@@ -13,6 +13,10 @@ public class ClusterClassifier {
         this.clusterMap = initialPointsDistribution( points );
     }
 
+    public Map<Integer, Cluster> getClusterMap() {
+        return this.clusterMap;
+    }
+
     private Map<Integer, Cluster> initialPointsDistribution( List<Point> points ) {
         Map<Integer, Cluster> clusterHashMap = this.initClusterHashMap();
         // Distribute points
@@ -71,7 +75,7 @@ public class ClusterClassifier {
         initClusterMap( points );
     }
 
-    private List<Point> getAllPoints() {
+    protected List<Point> getAllPoints() {
         ArrayList<Point> points = new ArrayList<>(0);
         for ( Map.Entry<Integer, Cluster> me : this.clusterMap.entrySet() ) {
             points.addAll(me.getValue().getPoints());

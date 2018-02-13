@@ -1,11 +1,13 @@
+import javax.swing.*;
+
 public class Main {
 
     public static void main(String[] args) {
-        ClusterClassifier cc = new ClusterClassifier(
-                2,
-                ClusterClassifier.generateRandomPointsSet( 22 ) );
-        while ( true ) {
-            cc.nextIteration();
-        }
+        AppGUI gui = new AppGUI( "Алгоритм К-средних" );
+        gui.setVisible( true );
+        gui.pack();
+        gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        gui.setLocationRelativeTo(null);
+        gui.setResizable(false);
     }
 }
