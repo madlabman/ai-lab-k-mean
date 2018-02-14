@@ -38,7 +38,7 @@ public class AppGUI extends JFrame {
 
         // Generate
         AppGUI.clusterClassifier = new ClusterClassifier(2,
-                ClusterClassifier.generateRandomPointsSet( 3000 ));
+                ClusterClassifier.generateRandomPointsSet( 100 ));
         // Draw UI
         setContentPane(AppGUI.initUI());
     }
@@ -118,7 +118,7 @@ public class AppGUI extends JFrame {
             renderer.setSeriesLinesVisible(i, false);
         }
         // Background
-        plot.setBackgroundPaint(Color.BLACK);
+        plot.setBackgroundPaint(AppGUI.darculaGREY);
         plot.setRangeGridlinePaint(Color.WHITE);
         plot.setDomainGridlinePaint(Color.WHITE);
 

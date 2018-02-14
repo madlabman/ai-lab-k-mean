@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Cluster {
     private List<Point> points;
@@ -8,7 +9,9 @@ public class Cluster {
 
     public Cluster() {
         this.points = new ArrayList<>();
-        this.clusterCenter = new Point(0, 0);
+
+        final Random random = new Random();
+        this.clusterCenter = new Point(random.nextDouble() * 100, random.nextDouble() * 100);
         this.lastClusterCenter = new Point(0, 0);
     }
 

@@ -6,37 +6,26 @@ public class ClusterClassifier {
 
     public ClusterClassifier( int predefinedClustersCount, List<Point> points ) {
         this.predefinedClustersCount = predefinedClustersCount;
-        this.initClusterMap( points );
-    }
-
-    private void initClusterMap( List<Point> points ) {
-        this.clusterMap = initialPointsDistribution( points );
+        this.clusterMap = this.initClusterHashMap();
+        this.nextIteration( points ); // Initial distribute
     }
 
     public Map<Integer, Cluster> getClusterMap() {
         return this.clusterMap;
     }
 
-    private Map<Integer, Cluster> initialPointsDistribution( List<Point> points ) {
-        Map<Integer, Cluster> clusterHashMap = this.initClusterHashMap();
-        // Distribute points
-        int currCluster = 0;
-        for ( Point p : points ) {
-            clusterHashMap.get( currCluster % this.predefinedClustersCount ).addPoint( p );
-            currCluster++;
-        }
-        // Compute centers
-        for ( Map.Entry<Integer, Cluster> me : clusterHashMap.entrySet() ) {
-            me.getValue().computeClusterCenter();
-        }
-
-        return clusterHashMap;
+    public void nextIteration( List<Point> points ) {
+        this.recomputePointsClusters( points );
     }
 
     public void nextIteration() {
+        this.recomputePointsClusters( this.getAllPoints() );
+    }
+
+    private void recomputePointsClusters( List<Point> points ) {
         Map<Integer, Cluster> clusterHashMap = initClusterHashMap();
         // Distribute points
-        for ( Point p : this.getAllPoints() ) {
+        for ( Point p : points ) {
             int clusterIdx = 0;
             double minLength = p.getLength( this.clusterMap.get( clusterIdx ).getClusterCenter() );
             for ( int i = 1; i < this.predefinedClustersCount; i++ ) {
@@ -58,7 +47,7 @@ public class ClusterClassifier {
     private Map<Integer, Cluster> initClusterHashMap() {
         HashMap<Integer, Cluster> clusterHashMap = new HashMap<>( this.predefinedClustersCount );
         // Initialize clusters
-        for ( int i = 0; i < predefinedClustersCount; i++ ) {
+        for ( int i = 0; i < this.predefinedClustersCount; i++ ) {
             clusterHashMap.put( i, new Cluster() );
         }
 
@@ -71,8 +60,9 @@ public class ClusterClassifier {
 
     public void rewindClusters() {
         List<Point> points = this.getAllPoints();
+        this.clusterMap = this.initClusterHashMap();
         // Reinitialize points
-        initClusterMap( points );
+        this.recomputePointsClusters( points );
     }
 
     protected List<Point> getAllPoints() {
